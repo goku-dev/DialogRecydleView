@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DialogRecycleView</string>
+    <string name="txt_tittle_exit">Thông báo này thằng kia</string>
+    <string name="txt_msg_exit">mày muốn thoát thật không??</string>
+</resources>
