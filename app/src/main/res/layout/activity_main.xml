@@ -9,11 +9,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_face"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/item_face"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/item_face" />
 
-<!--    Bước 6 : khai báo RecycleView và truyền vào ID-->
+    <!--    Bước 6 : khai báo RecycleView và truyền vào ID-->
 
 </LinearLayout>

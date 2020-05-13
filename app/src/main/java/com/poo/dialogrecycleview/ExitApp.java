@@ -6,11 +6,12 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-public class ExitApp extends Dialog implements View.OnClickListener {
-    private onExitListenner listenner;
 
-    public void setOnExitListenner(onExitListenner event){
-        listenner =event;
+public class ExitApp extends Dialog implements View.OnClickListener {
+    private onExitAppListener listener;
+
+    public void setOnExitAppListenner(onExitAppListener event) {
+        listener = event;
     }
 
     public ExitApp(@NonNull Context context) {
@@ -20,22 +21,23 @@ public class ExitApp extends Dialog implements View.OnClickListener {
     }
 
     private void initView() {
+        setCancelable(false);
+        setCanceledOnTouchOutside(false);
         findViewById(R.id.tv_ok).setOnClickListener(this);
         findViewById(R.id.tv_cancel).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.tv_cancel){
-            dismiss();
-        }else if(v.getId()==R.id.tv_ok){
-            listenner.exitApp();
-        }
+      if(v.getId() == R.id.tv_cancel){
+          dismiss();
+      }else if(v.getId()==R.id.tv_ok){
+          listener.exitApp();
+      }
     }
 
-    public interface onExitListenner{
+
+    public interface onExitAppListener {
         void exitApp();
     }
-
-
 }

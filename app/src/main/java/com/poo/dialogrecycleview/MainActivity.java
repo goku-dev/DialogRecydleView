@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,9 +16,10 @@ import com.poo.dialogrecycleview.entity.FaceEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, ExitApp.onExitListenner, FaceAdapter.onItemListenner {
-    private List<FaceEntity>listData;
-    private  RecyclerView rvFace;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, ExitApp.onExitAppListener, FaceAdapter.itemClickListener {
+    private List<FaceEntity> listData;
+
+    private RecyclerView recyclerView;
     private FaceAdapter faceAdapter;
 
     @Override
@@ -32,45 +32,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         findViewById(R.id.iv_back).setOnClickListener(this);
         findViewById(R.id.tv_back).setOnClickListener(this);
-
-        rvFace = findViewById(R.id.rv_face);
-        rvFace.setLayoutManager(new LinearLayoutManager(this));
-        //định dạng hiển thị view
+        recyclerView = findViewById(R.id.rv_face);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         initData();
 
     }
 
     private void initData() {
         listData = new ArrayList<>();
-        listData.add(new FaceEntity(R.drawable.ic_batngo,"Bất ngờ"));
-        listData.add(new FaceEntity(R.drawable.ic_boss,"Boss nè"));
-        listData.add(new FaceEntity(R.drawable.ic_bua,"bựa vãi lều"));
-        listData.add(new FaceEntity(R.drawable.ic_cauvl,"cáu gắt"));
-        listData.add(new FaceEntity(R.drawable.ic_cuoi,"smile"));
-        listData.add(new FaceEntity(R.drawable.ic_doi,"đói quá"));
-        listData.add(new FaceEntity(R.drawable.ic_khoc,"khóc"));
-        listData.add(new FaceEntity(R.drawable.ic_redsmile,"cười đểu"));
-        listData.add(new FaceEntity(R.drawable.ic_traitim,"thả tim"));
-        listData.add(new FaceEntity(R.drawable.ic_tucgian,"tức giận"));
-       faceAdapter = new FaceAdapter(listData,this);
-        faceAdapter.setOnItemListenner(this);
-        rvFace.setAdapter(faceAdapter);
+        listData.add(new FaceEntity(R.drawable.ic_tucgian, "cau vl"));
+        listData.add(new FaceEntity(R.drawable.ic_traitim, "cau vl"));
+        listData.add(new FaceEntity(R.drawable.ic_redsmile, "cau vl"));
+        listData.add(new FaceEntity(R.drawable.ic_khoc, "cau vl"));
+        listData.add(new FaceEntity(R.drawable.ic_cuoi, "cau vl"));
+        listData.add(new FaceEntity(R.drawable.ic_boss, "cau vl"));
+        faceAdapter = new FaceAdapter(listData, this);
+        faceAdapter.setItemClickListener(this);
+        recyclerView.setAdapter(faceAdapter);
+
     }
+
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.iv_back || v.getId()==R.id.tv_back){
+        if (v.getId() == R.id.iv_back || v.getId() == R.id.tv_back) {
 //            showConfirmDialog();
             showCustomDialog();
+
+
         }
     }
 
     private void showCustomDialog() {
         ExitApp exitApp = new ExitApp(this);
-        exitApp.setOnExitListenner(this);
+        exitApp.setOnExitAppListenner(this);
         exitApp.show();
-    }
 
+    }
 
     private void showConfirmDialog() {
         AlertDialog dialog = new AlertDialog.Builder(this).create();
@@ -93,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.show();
     }
 
-
     @Override
     public void exitApp() {
         finish();
@@ -101,13 +98,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void itemClick(FaceEntity data) {
-        Toast.makeText(this,data.getName(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, data.getName(), Toast.LENGTH_SHORT).show();
         listData.remove(data);
         faceAdapter.notifyDataSetChanged();
-        //thông báo cho adapter biết dữ liệu đã bị thay đổi
+
     }
 
-    //Bước 7: khai báo và ánh xạ RecycleView ter, khai báo FaceAdapter
-    //add data vào listData, setAdapter
-    //quy định định dạng của listView
 }
