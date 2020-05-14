@@ -6,21 +6,29 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.poo.dialogrecycleview.entity.FaceAdapter;
 import com.poo.dialogrecycleview.entity.FaceEntity;
+import com.poo.dialogrecycleview.entity.TextAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, ExitApp.onExitAppListener, FaceAdapter.itemClickListener {
-    private List<FaceEntity> listData;
+import static android.widget.Toast.LENGTH_SHORT;
 
-    private RecyclerView recyclerView;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, ExitApp.onExitAppListener, FaceAdapter.itemClickListener, TextAdapter.textListener {
+    private List<FaceEntity> listData;
+    private List<String> listText;
+
+    private RecyclerView recyclerView, rvText;
     private FaceAdapter faceAdapter;
+    private TextAdapter textAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,24 +40,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         findViewById(R.id.iv_back).setOnClickListener(this);
         findViewById(R.id.tv_back).setOnClickListener(this);
-        recyclerView = findViewById(R.id.rv_face);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        rvText = findViewById(R.id.rv_text);
+        rvText.setLayoutManager(new LinearLayoutManager(this));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouch);
+        itemTouchHelper.attachToRecyclerView(rvText);
         initData();
 
     }
 
     private void initData() {
-        listData = new ArrayList<>();
-        listData.add(new FaceEntity(R.drawable.ic_tucgian, "cau vl"));
-        listData.add(new FaceEntity(R.drawable.ic_traitim, "cau vl"));
-        listData.add(new FaceEntity(R.drawable.ic_redsmile, "cau vl"));
-        listData.add(new FaceEntity(R.drawable.ic_khoc, "cau vl"));
-        listData.add(new FaceEntity(R.drawable.ic_cuoi, "cau vl"));
-        listData.add(new FaceEntity(R.drawable.ic_boss, "cau vl"));
-        faceAdapter = new FaceAdapter(listData, this);
-        faceAdapter.setItemClickListener(this);
-        recyclerView.setAdapter(faceAdapter);
+//        listData = new ArrayList<>();
+////        listData.add(new FaceEntity(R.drawable.ic_tucgian, "cau vl"));
+////        listData.add(new FaceEntity(R.drawable.ic_traitim, "thả tym"));
+////        listData.add(new FaceEntity(R.drawable.ic_redsmile, "cuời đểu"));
+////        listData.add(new FaceEntity(R.drawable.ic_khoc, "cry on my shoulder"));
+////        listData.add(new FaceEntity(R.drawable.ic_cuoi, "smile"));
+////        listData.add(new FaceEntity(R.drawable.ic_boss, "bosss"));
+////        faceAdapter = new FaceAdapter(listData, this);
+////        faceAdapter.setItemClickListener(this);
+////        recyclerView.setAdapter(faceAdapter);
 
+        listText = new ArrayList<>();
+//        listText.add(new TextEntity("hey"));
+//        listText.add(new TextEntity("byby"));
+//        listText.add(new TextEntity("heloo"));
+//        listText.add(new TextEntity("mami"));
+//        listText.add(new TextEntity("noli"));
+//        listText.add(new TextEntity("conwwe"));
+//        listText.add(new TextEntity("ace"));
+//        listText.add(new TextEntity("gold"));
+//        listText.add(new TextEntity("aug"));
+//        listText.add(new TextEntity("akm"));
+//        listText.add(new TextEntity("swith"));
+
+        listText.add("chào các bạn");
+        listText.add("đã đến với app test demo");
+        listText.add("Swipe RecycleView");
+        listText.add("Của chúng tôi");
+        listText.add("Mời bạn thử test tính năng");
+        listText.add("xoá và khôi phục dữ liệu");
+        listText.add("cảm ơn bạn đã sử dụng");
+        listText.add("Tks kiu!!!!!!!!!!");
+        textAdapter = new TextAdapter(listText, this);
+        textAdapter.setTextListener(this);
+        rvText.setAdapter(textAdapter);
     }
 
 
@@ -97,11 +131,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void itemClick(FaceEntity data) {
-        Toast.makeText(this, data.getName(), Toast.LENGTH_SHORT).show();
-        listData.remove(data);
-        faceAdapter.notifyDataSetChanged();
+    public void itemClick(final FaceEntity data) {
+        Toast.makeText(this, data.getName(), LENGTH_SHORT).show();
+
 
     }
+
+
+    @Override
+    public void clickText(String data) {
+
+    }
+
+    String delete = null;
+    ItemTouchHelper.SimpleCallback itemTouch = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            final int posision = viewHolder.getAdapterPosition();
+            delete = listText.get(posision);
+            listText.remove(posision);
+            textAdapter.notifyDataSetChanged();
+            Snackbar.make(rvText, delete, Snackbar.LENGTH_LONG).setAction("undo", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listText.add(posision, delete);
+                    textAdapter.notifyDataSetChanged();
+                }
+            }).show();
+        }
+
+
+    };
+
 
 }

@@ -7,13 +7,19 @@
     android:orientation="vertical">
     <include layout="@layout/actionbar"/>
 
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/rv_face"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:scrollbars="vertical"-->
+<!--        tools:listitem="@layout/item_face" />-->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_face"
+        android:id="@+id/rv_text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:scrollbars="vertical"
-        tools:listitem="@layout/item_face" />
-
+        tools:listitem="@layout/item_text" />
     <!--    Bước 6 : khai báo RecycleView và truyền vào ID-->
 
 </LinearLayout>

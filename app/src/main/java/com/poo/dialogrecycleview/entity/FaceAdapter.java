@@ -14,7 +14,7 @@ import com.poo.dialogrecycleview.R;
 
 import java.util.List;
 
-public class FaceAdapter extends RecyclerView.Adapter<FaceAdapter.FaceHolder>  {
+public class FaceAdapter extends RecyclerView.Adapter<FaceAdapter.FaceHolder> {
     private List<FaceEntity> listData;
     private Context context;
 
@@ -52,7 +52,6 @@ public class FaceAdapter extends RecyclerView.Adapter<FaceAdapter.FaceHolder>  {
     }
 
 
-
     public class FaceHolder extends RecyclerView.ViewHolder {
         ImageView ivImage;
         TextView tvName;
@@ -64,7 +63,7 @@ public class FaceAdapter extends RecyclerView.Adapter<FaceAdapter.FaceHolder>  {
             itemView.findViewById(R.id.ln_face).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                listener.itemClick((FaceEntity) tvName.getTag());
+                    listener.itemClick((FaceEntity) tvName.getTag());
                 }
             });
 
@@ -72,14 +71,13 @@ public class FaceAdapter extends RecyclerView.Adapter<FaceAdapter.FaceHolder>  {
     }
 
 
-
-
     private itemClickListener listener;
-    public void setItemClickListener(itemClickListener event){
-        listener =event;
+
+    public void setItemClickListener(itemClickListener event) {
+        listener = event;
     }
 
-    public  interface itemClickListener{
+    public interface itemClickListener {
         void itemClick(FaceEntity data);
     }
 
